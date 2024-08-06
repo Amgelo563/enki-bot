@@ -1,0 +1,45 @@
+{
+  "name": "enki-bot",
+  "description": "A powerful data-driven Discord bot for documenting resources and providing quick messages for users.",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "build": "pnpm run clean && tsc",
+    "start": "node --trace-deprecation -r source-map-support/register dist/index.js",
+    "start:parse": "node --trace-deprecation -r source-map-support/register dist/index.js --parse-only"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@nyx-discord/core": "2.1.0",
+    "@nyx-discord/framework": "2.3.1",
+    "@pushcorn/hocon-parser": "1.3.1",
+    "discord.js": "14.15.3",
+    "glob": "11.0.0",
+    "go-git-it": "1.2.2",
+    "minisearch": "7.1.0",
+    "rimraf": "6.0.1",
+    "source-map-support": "0.5.21",
+    "tslog": "4.9.3",
+    "typescript": "5.5.3",
+    "valibot": "0.37.0"
+  },
+  "devDependencies": {
+    "@eslint/compat": "1.1.1",
+    "@eslint/eslintrc": "3.1.0",
+    "@eslint/js": "9.7.0",
+    "@types/node": "20.14.10",
+    "@types/validator": "13.12.0",
+    "@typescript-eslint/eslint-plugin": "7.16.0",
+    "@typescript-eslint/parser": "7.16.0",
+    "eslint": "9.7.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-import": "2.29.1",
+    "globals": "15.8.0",
+    "prettier": "3.3.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "pnpm@9.5.0"
+}
