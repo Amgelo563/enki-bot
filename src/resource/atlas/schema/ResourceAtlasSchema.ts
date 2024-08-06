@@ -1,12 +1,11 @@
 import type { InferOutput } from 'valibot';
-import { array, check, minLength, pipe } from 'valibot';
+import { array, check, pipe } from 'valibot';
 
 import { CommandLimits } from '../../../command/limits/CommandLimits';
 import { ResourceCategorySchema } from '../../category/schema/ResourceCategorySchema';
 
 export const ResourceAtlasSchema = pipe(
   array(ResourceCategorySchema),
-  minLength(1),
 
   check((categories) => {
     return categories.length <= CommandLimits.Amount;

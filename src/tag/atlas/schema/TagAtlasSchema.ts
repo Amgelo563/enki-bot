@@ -1,13 +1,11 @@
 import type { InferOutput } from 'valibot';
-import { array, check, minLength, pipe } from 'valibot';
+import { array, check, pipe } from 'valibot';
 
 import { CommandLimits } from '../../../command/limits/CommandLimits';
-
 import { TagCategorySchema } from '../../category/schema/TagCategorySchema';
 
 export const TagAtlasSchema = pipe(
   array(TagCategorySchema),
-  minLength(1),
 
   check((categories) => {
     return categories.length <= CommandLimits.Amount;
