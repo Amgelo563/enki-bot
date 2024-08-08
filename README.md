@@ -15,6 +15,7 @@ A powerful data-driven Discord bot for documenting resources and providing quick
     * [🤖 Command/Option Schema](#-CommandOption-Schema)
     * [🔍 Tag Reference Schema](#-tag-reference-schema)
 * [⚙ Configuration](#-Configuration)
+* [🚀 Running](#-Running)
 
 ## 🔨 Usage
 
@@ -417,3 +418,14 @@ The `config.conf` file lets you configure the behavior or messages of the bot.
   }
 }
 ```
+
+## 🚀 Running
+
+Enki requires at least Node.js 20.
+
+1. Run `npm install` to install the dependencies.
+2. Run `npm run build` to build the bot.
+3. Fill your `config.conf` file and fill your atlases.
+4. Run `npm run start` to start the bot.
+
+Optionally, you can run `npm run start:parse` to only start the "parsing" part of the bot, which will only parse and assert your content, but not run the bot.
