@@ -114,7 +114,7 @@ In Discord:
 
 > [!TIP]
 > For example, you can have a "my-product" resource, letting you include videos, faqs, etc per product.
-> ![PlantUML Resource diagram](http://www.plantuml.com/plantuml/dpng/VOqnJiGm44Lxds88nLOkeAHQn0qG7KenQq-orjgUZJq68fIxaqIOI0JHZ3HVxxz_p899Il3gHiuK20obuWcZvYBUHLAHBK7pJ9bBCWIFuZ4tS2lq8G_lPoS4dmh0ek09yqmUhebjCP8Fy5DwGg6UqzYiB42NC2ne6FKtlS6L0NXriUEsFjx5IwxV5Sq5-qNHuJ0llM2_6rbRGw4iZgF6ze_mLCDfvtrpblW_ymhek_PtShyvwvtKf8uKRGd-2m00)
+> ![PlantUML Resource diagram](http://www.plantuml.com/plantuml/png/TOozJiKm38NtF8K9GwSCC39Tn1iWDjJ196vlr2Hk4mUeKD-T_gW380PBnyV-laiHp59ZK3TofKXWATT0c0nN2JwHIkm8z3CLhjaIF4h0ek5Mw5CUFgvU2BuKG9TnXNKJPpDcTjLA0oUZzm-0LvywRe-ugeTov17jWFq6TpYL1bwmXoSKwZdF9xeIKwKYdfF1za_rTbJBBz-xTyJ_6_UpkMj_xlUdQvj5NIYv6iCt)
 
 #### Resource Atlas File
 
