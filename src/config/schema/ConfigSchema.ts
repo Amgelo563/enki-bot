@@ -1,5 +1,6 @@
 import type { InferOutput } from 'valibot';
 import {
+  boolean,
   check,
   literal,
   object,
@@ -18,6 +19,7 @@ import { ConfigSourceType } from '../type/ConfigSourceType';
 
 export const ConfigSchema = object({
   token: string(),
+  updateCommands: boolean(),
   source: variant('type', [
     object({
       type: literal(ConfigSourceType.Local),

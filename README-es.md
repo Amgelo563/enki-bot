@@ -421,6 +421,9 @@ El archivo `config.conf` te permite configurar el comportamiento o mensajes del 
 {
   // Token del Bot.
   token: "TOKEN",
+
+  // Si es que el bot debe actualizar sus comandos. Puedes establecerlo a `false` mientras testeas.
+  updateCommands: true,
   
   // Define dónde están los atlases.
   source: {

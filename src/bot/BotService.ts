@@ -65,7 +65,7 @@ export class BotService {
       logger: LogProvider.get(),
       id: Symbol('Enki'),
       token: config.getToken(),
-      deployCommands: true,
+      deployCommands: config.getRaw().updateCommands,
       client,
     }));
 
