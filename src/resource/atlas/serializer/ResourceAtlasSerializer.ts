@@ -1,25 +1,25 @@
 import { Collection } from 'discord.js';
 
 import type { PathBuilder } from '../../../path/PathBuilder';
-import type { ResourceCategory } from '../../category/ResourceCategory';
-import type { ResourceCategorySerializer } from '../../category/serializer/ResourceCategorySerializer';
+import type { Resource } from '../../Resource';
+import type { ResourceSerializer } from '../../serializer/ResourceSerializer';
 import type { ResourceAtlasSchemaOutput } from '../schema/ResourceAtlasSchema';
 
 export class ResourceAtlasSerializer {
-  protected readonly categorySerializer: ResourceCategorySerializer;
+  protected readonly resourceSerializer: ResourceSerializer;
 
-  constructor(categorySerializer: ResourceCategorySerializer) {
-    this.categorySerializer = categorySerializer;
+  constructor(resourceSerializer: ResourceSerializer) {
+    this.resourceSerializer = resourceSerializer;
   }
 
   public async decode(
     data: ResourceAtlasSchemaOutput,
     current: PathBuilder,
-  ): Promise<Collection<string, ResourceCategory>> {
-    const result = new Collection<string, ResourceCategory>();
+  ): Promise<Collection<string, Resource>> {
+    const result = new Collection<string, Resource>();
 
     for (const categoryData of data) {
-      const category = await this.categorySerializer.decode(
+      const category = await this.resourceSerializer.decode(
         categoryData,
         current.clone(),
       );

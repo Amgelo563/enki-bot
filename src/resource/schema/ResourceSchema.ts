@@ -13,13 +13,17 @@ export const ResourceSchema = pipe(
     categories: TagAtlasSchema,
   }),
 
+  transform((resource) => ({
+    ...resource,
+    id: resource.command.name,
+  })),
+
   check(
     (resource) => {
       const length = resource.tags.length + resource.categories.length;
       return length > 0;
     },
-    (issue) =>
-      `(${issue.input.command.name}) At least one category or tag must be attached to a resource`,
+    (issue) => `Resource '${issue.input.id}' has no tags or categories.`,
   ),
 
   check(
@@ -27,13 +31,8 @@ export const ResourceSchema = pipe(
       return resource.categories.length <= CommandLimits.Option.Amount;
     },
     (issue) =>
-      `(${issue.input.command.name}) The amount of categories in a resource must not exceed ${CommandLimits.Option.Amount}`,
+      `Resource '${issue.input.id}' has ${issue.input.categories.length} categories. It must not exceed ${CommandLimits.Option.Amount}.`,
   ),
-
-  transform((resource) => ({
-    ...resource,
-    id: resource.command.name,
-  })),
 );
 
 export type ResourceSchemaOutput = InferOutput<typeof ResourceSchema>;

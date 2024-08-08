@@ -2,7 +2,6 @@ import { IllegalStateError } from '@nyx-discord/core';
 import type { Collection } from 'discord.js';
 
 import { FileReader } from '../../file/FileReader';
-import { BasicGlobFilesReader } from '../../file/glob/BasicGlobFilesReader';
 import type { GlobFilesReader } from '../../file/glob/GlobFilesReader';
 import type { PathsManager } from '../../path/PathsManager';
 import type { TagAtlasSerializer } from '../../tag/atlas/serializer/TagAtlasSerializer';
@@ -11,9 +10,7 @@ import type { ResourceTagReferenceSchemaOutput } from '../../tag/reference/Resou
 import type { TagSchema } from '../../tag/schema/TagSchema';
 import type { TagSerializer } from '../../tag/serializer/TagSerializer';
 import type { Tag } from '../../tag/Tag';
-import type { ResourceCategory } from '../category/ResourceCategory';
-import { ResourceCategorySerializer } from '../category/serializer/ResourceCategorySerializer';
-import { ResourceSchema } from '../schema/ResourceSchema';
+import type { Resource } from '../Resource';
 import { ResourceSerializer } from '../serializer/ResourceSerializer';
 import { ResourceAtlasSchema } from './schema/ResourceAtlasSchema';
 import { ResourceAtlasSerializer } from './serializer/ResourceAtlasSerializer';
@@ -27,7 +24,7 @@ export class ResourceAtlasManager {
 
   protected readonly fileReader: FileReader<typeof ResourceAtlasSchema>;
 
-  protected categories: Collection<string, ResourceCategory> | null = null;
+  protected resources: Collection<string, Resource> | null = null;
 
   constructor(
     pathManager: PathsManager,
@@ -56,38 +53,31 @@ export class ResourceAtlasManager {
       tagAtlasSerializer,
       tagGlobReader,
     );
-    const resourceCategorySerializer = new ResourceCategorySerializer(
-      resourceSerializer,
-      new BasicGlobFilesReader(ResourceSchema),
-    );
     const resourceAtlasSerializer = new ResourceAtlasSerializer(
-      resourceCategorySerializer,
+      resourceSerializer,
     );
 
     return new ResourceAtlasManager(path, resourceAtlasSerializer, fileReader);
   }
 
-  public async start(): Promise<Collection<string, ResourceCategory>> {
-    if (this.categories) return this.categories;
+  public async start(): Promise<Collection<string, Resource>> {
+    if (this.resources) return this.resources;
 
     const read = await this.fileReader.read();
-    this.categories = await this.serializer.decode(
+    this.resources = await this.serializer.decode(
       read,
       this.pathManager.getBuilderFromContentRoot(),
     );
 
-    return this.categories;
+    return this.resources;
   }
 
   public findByReference(
     reference: ResourceTagReferenceSchemaOutput,
   ): TagCategory | Tag | null {
-    if (!this.categories) return null;
+    if (!this.resources) return null;
 
-    const category = this.categories.get(reference.resourceCategory);
-    if (!category) return null;
-
-    const resource = category.getResource(reference.resource);
+    const resource = this.resources.get(reference.resource);
     if (!resource) return null;
 
     if ('category' in reference) {
@@ -100,13 +90,9 @@ export class ResourceAtlasManager {
     return resource.getTag(reference.tag);
   }
 
-  public getCategory(id: string): ResourceCategory | null {
-    return this.categories?.get(id) ?? null;
-  }
+  public getResources(): Collection<string, Resource> {
+    if (!this.resources) throw new IllegalStateError('Atlas not loaded');
 
-  public getCategories(): Collection<string, ResourceCategory> {
-    if (!this.categories) throw new IllegalStateError('Atlas not loaded');
-
-    return this.categories;
+    return this.resources;
   }
 }

@@ -9,7 +9,6 @@ A powerful data-driven Discord bot for documenting resources and providing quick
         * [Tag Files](#Tag-Files)
     * [📖 Resources](#-Resources)
         * [Resource Atlas File](#Resource-Atlas-File)
-        * [Resource Files](#Resource-Files)
 * [📁 Globs](#-Globs)
 * [⌨ Schemas](#-Schemas)
     * [💬 Message Schema](#-Message-Schema)
@@ -105,7 +104,7 @@ You can then use:
 
 ### 📖 Resources
 
-A **Resource** is an object that contains tags and tag categories. They are loaded by **Resource Categories**, defined in the `content/resource-atlas.conf` file.
+A **Resource** is an object that contains tags and tag categories. They are defined in the `content/resource-atlas.conf` file.
 
 In Discord:
 * Each resource is loaded as the main command.
@@ -114,63 +113,48 @@ In Discord:
 * Optionally, each tag inside a tag category can include an alias as a subcommand (in the main command).
 
 > [!TIP]
-> For example, you can have a "products" resource category, and a "my-product" resource inside, letting you include videos, faqs, etc per product.
+> For example, you can have a "my-product" resource, letting you include videos, faqs, etc per product.
 > ![PlantUML Resource diagram](http://www.plantuml.com/plantuml/dpng/VOqnJiGm44Lxds88nLOkeAHQn0qG7KenQq-orjgUZJq68fIxaqIOI0JHZ3HVxxz_p899Il3gHiuK20obuWcZvYBUHLAHBK7pJ9bBCWIFuZ4tS2lq8G_lPoS4dmh0ek09yqmUhebjCP8Fy5DwGg6UqzYiB42NC2ne6FKtlS6L0NXriUEsFjx5IwxV5Sq5-qNHuJ0llM2_6rbRGw4iZgF6ze_mLCDfvtrpblW_ymhek_PtShyvwvtKf8uKRGd-2m00)
 
 #### Resource Atlas File
 
-The resource atlas is located in the `content/resources-atlas.conf` file. It contains an array of resource categories,
-each of which define the resource path.
+The resource atlas is located in the `content/resources-atlas.conf` file. It contains an array of resources.
 
 ```json5
 [
   {
-    // The name of this resource category.
-    name: "products",
-    // Glob pattern array for the resources of this category, relative to current path.
-    resources: ["resources/products/**.conf"]
+    // The entry point for this resource's tags and tag categories.
+    command: {
+      name: "my-product",
+      description: "Command that triggers the my-product resource."
+    },
+
+    // Glob pattern array for the tags of this resource, relative to current path.
+    // Warn: Every tag included here must have a command specified, which will be used as a subcommand.
+    tags: ["my-product/**.conf"],
+
+    // Follows the same format as a tag atlas
+    categories: [
+      {
+        // Relative to current path.
+        tags: [
+          "my-product/faq/**.conf"
+        ],
+        // While the option is called command, it'd actually be a subcommand inside the resource's command
+        command: {
+          // Command schema with option "tag"
+        },
+        searchBy: {
+          content: true,
+          embeds: true
+        },
+        message: {
+          // Message Schema with buttons
+        }
+      }
+    ]
   }
 ]
-```
-
-#### Resource Files
-
-After defining a resource category, you can now create your resources inside the path you provided.
-
-`root/config/resources/products/my-product.conf`
-
-```json5
-{
-  // The entry point for this resource's tags and tag categories.
-  command: {
-    name: "my-product",
-    description: "Command that triggers the my-product resource."
-  },
-  
-  // Glob pattern array for the tags of this resource, relative to current path.
-  tags: ["my-product/**.conf"],
-
-  // Follows the same format as a tag atlas
-  categories: [
-    {
-      // Relative to current path.
-      tags: [
-        "my-product/faq/**.conf"
-      ],
-      // While the option is called command, it'd actually be a subcommand inside the resource's command
-      command: {
-        // Command schema with option "tag"
-      },
-      searchBy: {
-        content: true,
-        embeds: true
-      },
-      message: {
-        // Message Schema with buttons
-      }
-    }
-  ]
-}
 ```
 
 Now you can use:
@@ -326,7 +310,6 @@ The tag reference schema is used when "referring" to a tag somewhere and trigger
 > [!TIP]
 > As a reminder:
 > * A tag category and resource IDs are their command names.
-> * A resource category's ID is its name.
 > * A tag ID is its first keyword.
 
 Currently available options:
@@ -356,9 +339,7 @@ Triggering a tag category message inside a resource.
 
 ```json5
 {
-  resourceCategory: "resource-category",
   resource: "resource",
-
   category: "tag-category",
 }
 ```
@@ -367,9 +348,7 @@ Triggering a tag from a resource.
 
 ```json5
 {
-  resourceCategory: "resource-category",
   resource: "resource",
-
   tag: "my-tag"
 }
 ```
@@ -378,9 +357,7 @@ Triggering a tag from a tag category inside a resource.
 
 ```json5
 {
-  resourceCategory: "resource-category",
   resource: "resource",
-
   category: "tag-category",
   tag: "my-tag"
 }

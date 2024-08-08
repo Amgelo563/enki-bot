@@ -12,7 +12,6 @@ export class TagReferenceCustomIdCodec extends AbstractCustomIdCodec<TagReferenc
     Category: 'c',
     Tag: 't',
     Resource: 'r',
-    ResourceCategory: 'k',
     Variant: 'v',
   } as const;
 
@@ -79,7 +78,6 @@ export class TagReferenceCustomIdCodec extends AbstractCustomIdCodec<TagReferenc
       [ShortenedReferenceKeys.Tag]: undefined,
       [ShortenedReferenceKeys.Resource]: undefined,
       [ShortenedReferenceKeys.Category]: undefined,
-      [ShortenedReferenceKeys.ResourceCategory]: undefined,
       [ShortenedReferenceKeys.Variant]: undefined,
     };
 
@@ -91,10 +89,6 @@ export class TagReferenceCustomIdCodec extends AbstractCustomIdCodec<TagReferenc
     }
     if ('resource' in serialized) {
       shortened[ShortenedReferenceKeys.Resource] = serialized.resource;
-    }
-    if ('resourceCategory' in serialized) {
-      shortened[ShortenedReferenceKeys.ResourceCategory] =
-        serialized.resourceCategory;
     }
     if ('variant' in serialized) {
       shortened[ShortenedReferenceKeys.Variant] = serialized.variant;
@@ -121,11 +115,6 @@ export class TagReferenceCustomIdCodec extends AbstractCustomIdCodec<TagReferenc
     if (ShortenedReferenceKeys.Resource in shortened) {
       unShortened.resource = shortened[
         ShortenedReferenceKeys.Resource
-      ] as string;
-    }
-    if (ShortenedReferenceKeys.ResourceCategory in shortened) {
-      unShortened.resourceCategory = shortened[
-        ShortenedReferenceKeys.ResourceCategory
       ] as string;
     }
     if (ShortenedReferenceKeys.Variant in shortened) {

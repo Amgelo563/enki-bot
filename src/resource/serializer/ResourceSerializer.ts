@@ -31,7 +31,6 @@ export class ResourceSerializer {
   public async decode(
     resourceData: ResourceSchemaOutput,
     current: PathBuilder,
-    resourceCategory: string,
   ): Promise<Resource> {
     const tagsDatas = await this.globReader.read(
       resourceData.tags.map((glob) => current.clone().add(glob).build()),
@@ -41,14 +40,13 @@ export class ResourceSerializer {
       const { command } = tagData;
       if (!command) {
         throw new AssertionError(
-          `Tag '${tagData.id}' in resource '${resourceData.id}' from resource category '${resourceCategory}' doesn't have a command. Every tag in a resource must have one.`,
+          `Tag '${tagData.id}' in resource '${resourceData.id}' doesn't have a command. Every tag in a resource must have one.`,
         );
       }
 
       const reference: TagReferenceSchemaOutput = {
         tag: tagData.id,
         resource: resourceData.id,
-        resourceCategory,
       };
 
       const tag = this.tagSerializer.decode(path, tagData, reference);
@@ -64,7 +62,7 @@ export class ResourceSerializer {
     const amount = tagsEntries.length + categories.size;
     if (amount > CommandLimits.Option.Amount) {
       throw new AssertionError(
-        `Resource '${resourceData.id}' from resource category '${resourceCategory}' has ${amount} categories and tags in total. It must not exceed ${CommandLimits.Option.Amount}`,
+        `Resource '${resourceData.id}' has ${amount} categories and tags in total. It must not exceed ${CommandLimits.Option.Amount}`,
       );
     }
 

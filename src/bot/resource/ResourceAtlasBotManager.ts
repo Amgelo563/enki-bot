@@ -21,17 +21,15 @@ export class ResourceAtlasBotManager {
   }
 
   public async start(): Promise<void> {
-    const categories = this.manager.getCategories();
-    if (!categories) {
+    const resources = this.manager.getResources();
+    if (!resources) {
       throw new IllegalStateError();
     }
 
     const commands: ParentCommand[] = [];
-    for (const category of categories.values()) {
-      for (const resource of category.getResources().values()) {
-        const command = this.serializer.toParentCommand(resource);
-        commands.push(command);
-      }
+    for (const resource of resources.values()) {
+      const command = this.serializer.toParentCommand(resource);
+      commands.push(command);
     }
 
     await this.bot.getCommandManager().addCommands(...commands);
