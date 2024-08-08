@@ -1,5 +1,7 @@
 import { AssertionError } from '@nyx-discord/core';
 import { Collection } from 'discord.js';
+import { join as pathJoin } from 'path';
+
 import type { GlobFilesReader } from '../../../file/glob/GlobFilesReader';
 import type { MessageSerializer } from '../../../message/serializer/MessageSerializer';
 import type { PathBuilder } from '../../../path/PathBuilder';
@@ -43,13 +45,18 @@ export class TagCategorySerializer {
     }
 
     const entries = Array.from(tagDatas.entries()).map(([path, tag]) => {
+      const folderPath = pathJoin(path, '..');
+
       const reference: TagReferenceSchemaOutput = {
         resource: resourceId ?? undefined,
         category: data.id,
         tag: tag.id,
       };
 
-      return [tag.id, this.tagSerializer.decode(path, tag, reference)] as const;
+      return [
+        tag.id,
+        this.tagSerializer.decode(folderPath, tag, reference),
+      ] as const;
     });
     const tags = new Collection(entries);
 

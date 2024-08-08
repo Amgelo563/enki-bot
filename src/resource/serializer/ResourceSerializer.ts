@@ -1,5 +1,6 @@
 import { AssertionError } from '@nyx-discord/core';
 import { Collection } from 'discord.js';
+import { join as pathJoin } from 'node:path';
 
 import { CommandLimits } from '../../command/limits/CommandLimits';
 import type { GlobFilesReader } from '../../file/glob/GlobFilesReader';
@@ -49,7 +50,8 @@ export class ResourceSerializer {
         resource: resourceData.id,
       };
 
-      const tag = this.tagSerializer.decode(path, tagData, reference);
+      const folderPath = pathJoin(path, '..');
+      const tag = this.tagSerializer.decode(folderPath, tagData, reference);
       return [tag.getId(), tag] as const;
     });
 

@@ -1,6 +1,5 @@
 import { Collection } from 'discord.js';
 import { glob } from 'glob';
-import path from 'node:path';
 import type { InferOutput, ObjectSchema } from 'valibot';
 
 import { FileReader } from '../FileReader';
@@ -29,8 +28,7 @@ export class BasicGlobFilesReader<Schema extends ObjectSchema<any, undefined>>
 
     const fileCollection = new Collection<string, InferOutput<Schema>>();
     for (const [i, filePath] of filePaths.entries()) {
-      const folder = path.join(filePath, '..');
-      fileCollection.set(folder, fileContents[i]);
+      fileCollection.set(filePath, fileContents[i]);
     }
 
     return fileCollection;
