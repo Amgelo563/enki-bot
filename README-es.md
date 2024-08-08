@@ -7,16 +7,17 @@ Un bot de Discord totalmente configurable para crear documentación, permitiendo
 ### Índice
 * [🔨 Uso](#-uso)
     * [🏷 Tags](#-Tags)
-        * [Tag Atlas File](#Tag-Atlas-File)
-        * [Tag Files](#Tag-Files)
+        * [Archivo Tag Atlas](#Archivo-Tag-Atlas)
+        * [Archivos de Tags](#Archivos-de-Tags)
     * [📖 Resources](#-Resources)
-        * [Resource Atlas File](#Resource-Atlas-File)
+        * [Archivo Resource Atlas](#Archivo-Resource-Atlas)
 * [📁 Globs](#-Globs)
 * [⌨ Schemas](#-Schemas)
-    * [💬 Message Schema](#-Message-Schema)
-    * [🤖 Command/Option Schema](#-CommandOption-Schema)
-    * [🔍 Tag Reference Schema](#-tag-reference-schema)
-* [⚙ Configuration](#-Configuration)
+    * [💬 Schema de Mensaje](#-schema-de-mensaje)
+    * [🤖 Schema de Comando](#-schema-de-comando)
+    * [🔍 Schema de Referencia a Tag](#-schema-de-referencia-a-tag)
+* [⚙ Configuración](#-configuración)
+* [🚀 Iniciar el Bot](#-iniciar-el-bot)
 
 ## 🔨 Uso
 
@@ -208,9 +209,45 @@ El Schema de Mensaje es usado para configurar mensajes que serán enviados a usu
   content: "Viendo un mensaje",
 
   // Los embeds del mensaje, opcional.
+  // Revisa https://discord.com/developers/docs/resources/message#embed-object-embed-limits para ver los límites de
+  // caracteres en cada parte del embed.
+  // Enki también revisará que todas las partes sean válidas, incluyendo la parte de "sum of characters".
+  // Todas las partes son opcionales, excepto el title.
   embeds: [{
-    title: "Mi pregunta",
-    // etc
+    title: "Título del embed",
+    description: "Descripción del embed",
+    url: "https://embed.url/",
+
+    // https://www.iso.org/iso-8601-date-and-time-format.html
+    timestamp: "2024-07-08",
+
+    color: "#FFFFFF",
+    footer: {
+      text: "Texto del Footer",
+      // Opcional
+      icon: "https://footer-icon.url/",
+    },
+    image: "https://image.url/",
+    thumbnail: "https://thumbnail.url/",
+    author: {
+      name: "Nombre del Autor",
+      // Opcional
+      url: "https://author.url/",
+      // Opcional
+      icon: "https://author-icon.url/",
+    },
+    fields: [
+      {
+        name: "Nombre del Field 1",
+        value: "Valor del Field 1",
+        // Opcional
+        inline: false,
+      },
+      {
+        name: "Nombre del Field 2",
+        value: "Valor del Field 2",
+      }
+    ]
   }],
 
   // Lista de rutas (no globs) de archivos a ser enviados con el mensaje, opcional.

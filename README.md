@@ -196,9 +196,45 @@ The message schema is used when configuring what message will be sent to the use
   content: "Showing faqs",
 
   // The message embeds, optional.
+  // Check https://discord.com/developers/docs/resources/message#embed-object-embed-limits to see the character limits on embeds.
+  // Enki will also make sure the embeds are valid, including the "sum of characters" part.
+  // Every part is optional, except for the title.
   embeds: [{
-    title: "My question",
-    // etc
+    title: "Embed title",
+    description: "Embed Description",
+    url: "https://embed.url/",
+
+    // https://www.iso.org/iso-8601-date-and-time-format.html
+    timestamp: "2024-07-08",
+
+    color: "#FFFFFF",
+    footer: {
+      text: "Footer's text",
+      // Optional
+      icon: "https://footer-icon.url/",
+    },
+    image: "https://image.url/",
+    thumbnail: "https://thumbnail.url/",
+    author: {
+      name: "Author's name",
+      // Optional
+      url: "https://author.url/",
+      // Optional
+      icon: "https://author-icon.url/",
+    },
+    fields: [
+      {
+        name: "Field 1 Name",
+        value: "Field 1 Value",
+        // Optional
+        inline: false,
+      },
+      {
+        name: "Field 2 Name",
+        value: "Field 2 Value",
+        inline: false,
+      }
+    ]
   }],
 
   // Array of file paths (not globs) to send those files alongside the message, optional.
