@@ -1,5 +1,7 @@
 # 📚 Enki Bot
 
+**🇺🇸 Reading in English** / [🇪🇸 Leer en Español](README-es.md)
+
 A powerful data-driven Discord bot for documenting resources and providing quick messages (tags), supporting categories, nested tags, resource/tag commands and more.
 
 ### Table of Contents
