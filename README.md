@@ -370,26 +370,38 @@ The `config.conf` file lets you configure the behavior or messages of the bot.
 {
   // Bot's token
   token: "TOKEN",
-  
-  // Defines the type of config source, (where tags and resources are contained).
-  // Either "local" or a .git url, pointing to a repository that will be cloned in runtime.
-  source: "local",
-  
-  // The folder (relative to bot's or repository root, depending on the source type) where the tag and resource atlases are contained. 
-  contentFolder: "config",
-  
+
+  // Defines where the atlases are.
+  source: {
+    // Either "local" or "git".
+    type: "",
+
+    // The folder where the tag and resource atlases are contained.
+    // For "local" type, it's relative to the Enki root (where the package.json file is), and defaults to "content".
+    // For "git" type, it's relative to the git repository root, doesn't default to anything, not specifying it loads them directly from root. 
+    contentFolder: "content",
+
+    // The following options are only available for the "git" type.
+
+    // The url of the git repository. Must end in `.git`.
+    gitUrl: "",
+
+    // Optionally, the folder where repository clones will be stored. Defaults to __clone__.
+    cloneFolder: "",
+  },
+
   errors: {
     // Message schema that will be triggered when the user specifies an unknown tag.
     tagNotFound: {
       content: "Unknown tag."
     },
-    
+
     // Message schema that will be shown to the user for general errors.
     generic: {
       content: "An error has happened, please contact an admin."
     }
   },
-  
+
   options: {
     // Command option schema to select a variant, for tags that have it.
     variant: {
