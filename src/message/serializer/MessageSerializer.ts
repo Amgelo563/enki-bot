@@ -154,6 +154,12 @@ export class MessageSerializer {
       return {
         ...embed,
         color,
+        author: embed.author
+          ? { ...embed.author, icon_url: embed.author.icon }
+          : undefined,
+        footer: embed.footer
+          ? { ...embed.footer, icon_url: embed.footer.icon }
+          : undefined,
         image: embed.image ? { url: embed.image } : undefined,
         thumbnail: embed.thumbnail ? { url: embed.thumbnail } : undefined,
       };
