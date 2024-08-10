@@ -74,11 +74,11 @@ export const MessageSchemaWithoutButtons = pipe(
   }, 'Either message content or embeds is required'),
 
   transform((data) => {
-    let summary = data.content ? data.content : '';
+    let summary = data.content ? stripMarkdown(data.content) : '';
     const { embeds } = data;
 
     if (embeds) {
-      const titles = embeds.map((embed) => embed.title);
+      const titles = embeds.map((embed) => stripMarkdown(embed.title));
       summary += titles.join(', ');
     }
 
@@ -140,3 +140,7 @@ export const MessageSchemaWithVariants = intersect([
     ),
   }),
 ]);
+
+function stripMarkdown(input: string): string {
+  return input.replaceAll('`', '').replaceAll('*', '').replaceAll('_', '');
+}
