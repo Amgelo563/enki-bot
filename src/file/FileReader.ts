@@ -38,10 +38,19 @@ export class FileReader<Schema extends GenericSchema> {
       throw new Error(`File '${this.path}' not found or is not a file`);
     }
 
-    const read = await parse({
-      url: this.path,
-      strict: false,
-    });
+    let read;
+    try {
+      read = await parse({
+        url: this.path,
+        strict: false,
+      });
+    } catch (e) {
+      LogProvider.get().error(
+        `There was an error while parsing HOCON from file "${this.path}". Invalid HOCON syntax?:`,
+        e,
+      );
+      process.exit(1);
+    }
 
     try {
       this.cached = parseSchema(this.schema, read);
@@ -49,7 +58,7 @@ export class FileReader<Schema extends GenericSchema> {
       const error = e as ValiError<Schema>;
       const logged = 'issues' in error ? flatten<Schema>(error.issues) : error;
       LogProvider.get().error(
-        `There was an error while validating file ${this.path}:\n`,
+        `There was an error while validating file ${this.path}:`,
         logged.nested ? logged.nested : logged.root,
         '\nStack:\n',
         error.stack,
