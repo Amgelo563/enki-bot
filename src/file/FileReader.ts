@@ -1,13 +1,12 @@
 import parse from '@pushcorn/hocon-parser';
 import { statSync } from 'fs';
 import { existsSync } from 'node:fs';
-import type { InferOutput, ValiError } from 'valibot';
+import type { GenericSchema, InferOutput, ValiError } from 'valibot';
 import { flatten, parse as parseSchema } from 'valibot';
 
 import { LogProvider } from '../log/LogProvider';
-import type { AnyValibotSchema } from '../schemas/AnyValibotSchema';
 
-export class FileReader<Schema extends AnyValibotSchema> {
+export class FileReader<Schema extends GenericSchema> {
   public static readonly Extension = '.conf';
 
   protected readonly path: string;

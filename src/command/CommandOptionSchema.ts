@@ -3,7 +3,6 @@ import { maxLength, object, pipe, regex } from 'valibot';
 
 import { LocalizableSchema } from '../schemas/LocalizableSchema';
 import { NonEmptyStringSchema } from '../schemas/NonEmptyStringSchema';
-
 import { CommandLimits } from './limits/CommandLimits';
 
 const BaseCommandOptionSchema = object({
