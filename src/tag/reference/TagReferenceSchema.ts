@@ -5,8 +5,8 @@ import { MainTagReferenceSchema } from './MainTagReferenceSchema';
 import { ResourceTagReferenceSchema } from './ResourceTagReferenceSchema';
 
 export const TagReferenceSchema = union([
-  ...MainTagReferenceSchema.options,
   ...ResourceTagReferenceSchema.options,
+  ...MainTagReferenceSchema.options,
 ]);
 
 export type TagReferenceSchemaOutput = InferOutput<typeof TagReferenceSchema>;

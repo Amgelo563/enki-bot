@@ -5,9 +5,6 @@ export const ResourceTagReferenceSchema = union([
   object({
     resource: string(),
     category: string(),
-  }),
-  object({
-    resource: string(),
     tag: string(),
 
     variant: optional(string()),
@@ -15,8 +12,10 @@ export const ResourceTagReferenceSchema = union([
   object({
     resource: string(),
     category: string(),
+  }),
+  object({
+    resource: string(),
     tag: string(),
-
     variant: optional(string()),
   }),
 ]);

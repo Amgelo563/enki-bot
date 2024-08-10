@@ -5,7 +5,6 @@ export const MainTagReferenceSchema = union([
   object({
     category: string(),
     tag: string(),
-
     variant: optional(string()),
   }),
   object({
