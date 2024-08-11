@@ -21,6 +21,7 @@ import { MessageComponentLimits } from '../component/MessageComponentLimits';
 import { MessageEmbedLimits } from '../embed/limits/MessageEmbedLimits';
 import { MessageEmbedSchema } from '../embed/MessageEmbedSchema';
 import { MessageLimits } from '../limits/MessageLimits';
+import { MarkdownSanitizer } from '../markdown/MarkdownSanitizer';
 
 export const MessageSchemaWithoutButtons = pipe(
   object({
@@ -74,11 +75,13 @@ export const MessageSchemaWithoutButtons = pipe(
   }, 'Either message content or embeds is required'),
 
   transform((data) => {
-    let summary = data.content ? stripMarkdown(data.content) : '';
+    let summary = data.content ? MarkdownSanitizer.sanitize(data.content) : '';
     const { embeds } = data;
 
     if (embeds) {
-      const titles = embeds.map((embed) => stripMarkdown(embed.title));
+      const titles = embeds.map((embed) =>
+        MarkdownSanitizer.sanitize(embed.title),
+      );
       summary += titles.join(', ');
     }
 
@@ -140,7 +143,3 @@ export const MessageSchemaWithVariants = intersect([
     ),
   }),
 ]);
-
-function stripMarkdown(input: string): string {
-  return input.replaceAll('`', '').replaceAll('*', '').replaceAll('_', '');
-}
