@@ -67,6 +67,7 @@ export const MessageSchemaWithoutButtons = pipe(
         }, 'All files must either absolute (starting with `/`) or relative (starting with `./`)'),
       ),
     ),
+    summary: FalsySchema(NonEmptyStringSchema),
   }),
 
   check((input) => {
@@ -75,6 +76,8 @@ export const MessageSchemaWithoutButtons = pipe(
   }, 'Either message content or embeds is required'),
 
   transform((data) => {
+    if (data.summary) return { ...data, summary: data.summary };
+
     let summary = data.content ? MarkdownSanitizer.sanitize(data.content) : '';
     const { embeds } = data;
 

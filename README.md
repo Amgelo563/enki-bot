@@ -286,6 +286,10 @@ The message schema is used when configuring what message will be sent to the use
     }
   ],
   
+  // An optional short summary of the message, used for autocompletion.
+  // If not specified, a summary will be generated from the message's content and/or embed titles.
+  summary: "My message",
+  
   // Variants of this message that the querier can select manually, available for tag messages.
   // If specified, the "variant" option in config will be attached to the tag's options.
   // Can be used to select localized versions, change the answer depending on the user's software version, etc.

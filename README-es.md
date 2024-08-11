@@ -297,6 +297,10 @@ El Schema de Mensaje es usado para configurar mensajes que serán enviados a usu
       }
     }
   ],
+
+  // Un resumen opcional del mensaje, usado para el autocompletado.
+  // Si no se especifica, el resumen se generará automáticamente a partir del content y/o titles de los embeds.
+  summary: "Mi mensaje",
   
   // Variantes de este mensaje que el usuario puede seleccionar manualmente, disponible para mensajes de Tags.
   // Si se especifica, la opción "variant" de la config será puesta al comando del Tag o a su Category.
