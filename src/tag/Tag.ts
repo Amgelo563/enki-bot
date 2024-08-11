@@ -77,7 +77,7 @@ export class Tag implements Identifiable<string> {
   }
 
   public getLabel(): string {
-    const base = `${this.data.id} - `;
+    const base = `${this.data.displayName} - `;
     return `${base}${this.getSummary(CommandLimits.Autocomplete.Name - base.length)}`;
   }
 

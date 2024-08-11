@@ -11,10 +11,12 @@ export const TagSchema = pipe(
     keywords: tupleWithRest([NonEmptyStringSchema], NonEmptyStringSchema),
     command: FalsySchema(CommandSchema),
     message: MessageSchemaWithVariants,
+    displayName: FalsySchema(NonEmptyStringSchema),
   }),
   transform((data) => ({
     ...data,
     id: data.keywords[0],
+    displayName: data.displayName ? data.displayName : data.keywords[0],
   })),
 );
 

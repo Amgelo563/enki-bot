@@ -93,6 +93,9 @@ After defining a tag category, you can now create your tags inside the path you 
     description: "Command that triggers the my-question tag."
   },
   
+  // Optional, a fancy tag name, shown alongside its message summary in autocompletion.
+  displayName: "My Question",
+  
   message: {
     // Message schema with buttons.
   }

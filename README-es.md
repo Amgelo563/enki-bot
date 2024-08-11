@@ -98,6 +98,9 @@ Tras definir la Tag Category, ahora puedes crear tus Tags dentro de los director
     name: "mi-pregunta",
     description: "Comando que activará el tag mi-pregunta."
   },
+
+  // Opcional, un nombre bonito para el Tag, mostrado junto al summary del mensaje en el autocompletado.
+  displayName: "My Question",
   
   // El mensaje del tag.
   message: {
