@@ -61,8 +61,12 @@ export class TagCategorySerializer {
     const tags = new Collection(entries);
 
     const message = data.message
-      ? this.messageSerializer.serializeWithoutButtons(
+      ? this.messageSerializer.serializeWithButtons(
           data.message,
+          {
+            resource: resourceId ?? undefined,
+            category: data.id,
+          },
           current.build(),
         )
       : null;
