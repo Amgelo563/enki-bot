@@ -201,7 +201,7 @@ The message schema is used when configuring what message will be sent to the use
   // The message embeds, optional.
   // Check https://discord.com/developers/docs/resources/message#embed-object-embed-limits to see the character limits on embeds.
   // Enki will also make sure the embeds are valid, including the "sum of characters" part.
-  // Every part is optional, except for the title.
+  // Every part is optional, but it needs to have at least a title, an author, a description, a thumbnail, 1 field, an image or a footer.
   embeds: [{
     title: "Embed title",
     description: "Embed Description",

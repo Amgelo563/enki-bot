@@ -215,7 +215,7 @@ El Schema de Mensaje es usado para configurar mensajes que serán enviados a usu
   // Revisa https://discord.com/developers/docs/resources/message#embed-object-embed-limits para ver los límites de
   // caracteres en cada parte del embed.
   // Enki también revisará que todas las partes sean válidas, incluyendo la parte de "sum of characters".
-  // Todas las partes son opcionales, excepto el title.
+  // Todas las partes son opcionales, pero necesita al menos un title, un author, una description, una thumbnail, un field, una image o un footer.
   embeds: [{
     title: "Título del embed",
     description: "Descripción del embed",

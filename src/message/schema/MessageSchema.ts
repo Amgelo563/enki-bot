@@ -19,6 +19,7 @@ import { TagMessageButtonSchema } from '../button/TagMessageButtonSchema';
 import { EnkiMessageComponentType } from '../component/EnkiMessageComponentType';
 import { MessageComponentLimits } from '../component/MessageComponentLimits';
 import { MessageEmbedLimits } from '../embed/limits/MessageEmbedLimits';
+import type { MessageEmbedSchemaOutput } from '../embed/MessageEmbedSchema';
 import { MessageEmbedSchema } from '../embed/MessageEmbedSchema';
 import { MessageLimits } from '../limits/MessageLimits';
 import { MarkdownSanitizer } from '../markdown/MarkdownSanitizer';
@@ -35,7 +36,7 @@ export const MessageSchemaWithoutButtons = pipe(
           let sum = 0;
 
           for (const embed of embeds) {
-            const title = embed.title.length;
+            const title = findFirstContent(embed).length;
             const description = embed.description?.length ?? 0;
             let fields = 0;
             for (const field of embed.fields ?? []) {
@@ -82,10 +83,10 @@ export const MessageSchemaWithoutButtons = pipe(
     const { embeds } = data;
 
     if (embeds) {
-      const titles = embeds.map((embed) =>
-        MarkdownSanitizer.sanitize(embed.title),
+      const contents = embeds.map((embed) =>
+        MarkdownSanitizer.sanitize(findFirstContent(embed)),
       );
-      summary += titles.join(', ');
+      summary += contents.join(', ');
     }
 
     return {
@@ -146,3 +147,13 @@ export const MessageSchemaWithVariants = intersect([
     ),
   }),
 ]);
+
+function findFirstContent(embed: MessageEmbedSchemaOutput): string {
+  return (embed.title ??
+    embed.author?.name ??
+    embed.description ??
+    embed.thumbnail ??
+    (embed.fields ? embed.fields[0].name : null) ??
+    embed.image ??
+    embed.footer?.text) as string;
+}
