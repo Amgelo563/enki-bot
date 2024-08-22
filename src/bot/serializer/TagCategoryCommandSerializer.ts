@@ -15,6 +15,7 @@ import type {
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
 
 import type { CommandSchemaOutput } from '../../command/CommandSchema';
+import { CommandLimits } from '../../command/limits/CommandLimits';
 import type { ConfigWrapper } from '../../config/ConfigWrapper';
 import type { TagCategory } from '../../tag/category/TagCategory';
 import { BaseContentCommandSerializer } from './BaseContentCommandSerializer';
@@ -195,9 +196,9 @@ export class TagCategoryCommandSerializer extends BaseContentCommandSerializer {
       if (!tag) return interaction.respond([]);
 
       const choices = tag.getVariantChoices();
-      const typedChoices = choices.filter((choice) =>
-        choice.name.startsWith(focused.value),
-      );
+      const typedChoices = choices
+        .filter((choice) => choice.name.startsWith(focused.value))
+        .slice(0, CommandLimits.Autocomplete.Amount);
 
       await interaction.respond(typedChoices);
       return;

@@ -78,7 +78,9 @@ export class MiniSearchSearcher implements TagSearcher {
       return this.emptyChoices;
     }
 
-    const results = this.miniSearch.search(query, { prefix: true });
+    const results = this.miniSearch
+      .search(query, { prefix: true })
+      .slice(0, CommandLimits.Autocomplete.Amount);
     return results.map((result) => {
       return {
         name: result.label as string,
