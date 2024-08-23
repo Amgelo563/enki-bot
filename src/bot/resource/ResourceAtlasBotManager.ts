@@ -1,5 +1,6 @@
-import type { NyxBot, ParentCommand } from '@nyx-discord/core';
+import type { NyxBot, ParentCommand, TopLevelCommand } from '@nyx-discord/core';
 import { IllegalStateError } from '@nyx-discord/core';
+
 import type { ResourceAtlasManager } from '../../resource/atlas/ResourceAtlasManager';
 import type { ResourceCommandSerializer } from '../serializer/ResourceCommandSerializer';
 
@@ -20,7 +21,12 @@ export class ResourceAtlasBotManager {
     this.serializer = serializer;
   }
 
-  public async start(): Promise<void> {
+  public async setupCommands(): Promise<void> {
+    const commands = await this.serializeCommands();
+    await this.bot.getCommandManager().addCommands(...commands);
+  }
+
+  public async serializeCommands(): Promise<TopLevelCommand[]> {
     const resources = this.manager.getResources();
     if (!resources) {
       throw new IllegalStateError();
@@ -32,6 +38,6 @@ export class ResourceAtlasBotManager {
       commands.push(command);
     }
 
-    await this.bot.getCommandManager().addCommands(...commands);
+    return commands;
   }
 }

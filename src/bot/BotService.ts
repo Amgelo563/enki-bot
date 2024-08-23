@@ -1,4 +1,8 @@
-import type { EventSubscriber, NyxBot } from '@nyx-discord/core';
+import type {
+  CommandDeployer,
+  EventSubscriber,
+  NyxBot,
+} from '@nyx-discord/core';
 import { CommandAutocompleteError } from '@nyx-discord/core';
 import { Bot } from '@nyx-discord/framework';
 import type { ClientEvents } from 'discord.js';
@@ -99,8 +103,8 @@ export class BotService {
   }
 
   public async startBot(): Promise<void> {
-    await this.mainTagAtlasManager.start();
-    await this.resourceAtlasManager.start();
+    await this.mainTagAtlasManager.setupCommands();
+    await this.resourceAtlasManager.setupCommands();
 
     const commandErrorHandler = this.bot
       .getCommandManager()
@@ -143,5 +147,19 @@ export class BotService {
     await this.bot.getEventManager().subscribeClient(this.buttonSubscriber);
 
     await this.bot.start();
+  }
+
+  public async reloadCommands(): Promise<void> {
+    const tagAtlasCommands = await this.mainTagAtlasManager.serializeCommands();
+    const resourceCommands =
+      await this.resourceAtlasManager.serializeCommands();
+
+    const allCommands = [...tagAtlasCommands, ...resourceCommands];
+
+    const deployer = this.bot
+      .getCommandManager()
+      .getDeployer() as CommandDeployer;
+
+    await deployer.setCommands(...allCommands);
   }
 }

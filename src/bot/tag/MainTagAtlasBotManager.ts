@@ -1,4 +1,8 @@
-import type { NyxBot, StandaloneCommand } from '@nyx-discord/core';
+import type {
+  NyxBot,
+  StandaloneCommand,
+  TopLevelCommand,
+} from '@nyx-discord/core';
 import { IllegalStateError } from '@nyx-discord/core';
 
 import type { MainTagAtlasManager } from '../../tag/atlas/MainTagAtlasManager';
@@ -21,7 +25,12 @@ export class MainTagAtlasBotManager {
     this.serializer = serializer;
   }
 
-  public async start(): Promise<void> {
+  public async setupCommands(): Promise<void> {
+    const commands = await this.serializeCommands();
+    await this.bot.getCommandManager().addCommands(...commands);
+  }
+
+  public async serializeCommands(): Promise<TopLevelCommand[]> {
     const categories = this.manager.getCategories();
     if (!categories) {
       throw new IllegalStateError();
@@ -33,6 +42,6 @@ export class MainTagAtlasBotManager {
       commands.push(...standaloneCommands);
     }
 
-    await this.bot.getCommandManager().addCommands(...commands);
+    return commands;
   }
 }
