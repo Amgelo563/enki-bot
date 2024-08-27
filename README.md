@@ -23,6 +23,9 @@ A powerful data-driven Discord bot for documenting resources and providing quick
 
 Enki has two types of data: Tags and Resources. In this example we will be configuring Enki for a community where we offer products.
 
+> [!TIP]
+> Every Enki config uses HOCON (`.conf`). [If you wish to learn more about it, check out the official documentation.](https://github.com/lightbend/config/blob/main/HOCON.md#goals--background)
+
 ---
 
 ### 🏷 Tags

@@ -27,6 +27,9 @@ Enki soporta dos tipos de información: Tags (Etiquetas) y Resources (Recursos).
 > En este ejemplo configuraremos Enki para un servidor donde ofreces productos.
 > Para este ejemplo, se asume que en `config.conf` el source type es `local` y el `contentFolder` es `content` (o no se especificó, ya que es el valor por defecto).
 
+> [!TIP]
+> Toda la configuración de Enki usa HOCON (`.conf`). [Si deseas saber más sobre este formato, revisa esta guía.](https://gist.github.com/Amgelo563/b1005cdf035d5a44efaf377ece51c702)
+
 ---
 
 ### 🏷 Tags
