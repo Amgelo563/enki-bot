@@ -8,7 +8,7 @@ import { ResourceAtlasManager } from '../resource/atlas/ResourceAtlasManager';
 import { MainTagAtlasManager } from '../tag/atlas/MainTagAtlasManager';
 import { TagAtlasSerializer } from '../tag/atlas/serializer/TagAtlasSerializer';
 import { TagCategorySerializer } from '../tag/category/serializer/TagCategorySerializer';
-import type { TagCategory } from '../tag/category/TagCategory';
+import { TagCategory } from '../tag/category/TagCategory';
 import { TagReferenceCustomIdCodec } from '../tag/reference/codec/TagReferenceCustomIdCodec';
 import type { TagReferenceSchemaOutput } from '../tag/reference/TagReferenceSchema';
 import { TagSchema } from '../tag/schema/TagSchema';
@@ -159,9 +159,25 @@ export class ContentService {
       const foundReference = this.findByReference(reference);
 
       if (!foundReference) {
-        throw new Error(
-          `Reference on "${name}" not found: ${JSON.stringify(reference)}`,
+        throw new AssertionError(
+          `Reference on ${name} not found. Fix reference: ${JSON.stringify(reference)}`,
         );
+      }
+
+      if (foundReference instanceof TagCategory) {
+        if (!foundReference.getMessage()) {
+          throw new AssertionError(
+            `Tag category reference on ${name} has no message. Fix reference: ${JSON.stringify(reference)}`,
+          );
+        }
+      } else {
+        if (!('variant' in reference) || !reference.variant) return;
+
+        if (!foundReference.getVariant(reference.variant)) {
+          throw new AssertionError(
+            `Tag reference on ${name} has no variant "${reference.variant}". Fix reference: ${JSON.stringify(reference)}`,
+          );
+        }
       }
     }
   }
