@@ -37,6 +37,11 @@ export class MiniSearchSearcher implements TagSearcher {
     const miniSearch = new MiniSearch<TagSearchData>({
       fields,
       storeFields: ['id', 'label'],
+      searchOptions: {
+        boost: {
+          keywords: 2,
+        },
+      },
     });
 
     const searchDatas = tags.map((tag) => {
