@@ -1,8 +1,4 @@
-import type {
-  CommandDeployer,
-  EventSubscriber,
-  NyxBot,
-} from '@nyx-discord/core';
+import type { EventSubscriber, NyxBot } from '@nyx-discord/core';
 import { CommandAutocompleteError } from '@nyx-discord/core';
 import { Bot } from '@nyx-discord/framework';
 import type { ClientEvents } from 'discord.js';
@@ -156,10 +152,6 @@ export class BotService {
 
     const allCommands = [...tagAtlasCommands, ...resourceCommands];
 
-    const deployer = this.bot
-      .getCommandManager()
-      .getDeployer() as CommandDeployer;
-
-    await deployer.setCommands(...allCommands);
+    await this.bot.getCommandManager().setCommands(...allCommands);
   }
 }
