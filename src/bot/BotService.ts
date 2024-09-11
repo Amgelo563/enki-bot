@@ -137,7 +137,7 @@ export class BotService {
         return;
       }
 
-      interaction.reply(message).catch(() => {});
+      interaction.reply({ ...message, ephemeral: true }).catch(() => {});
     });
 
     await this.bot.getEventManager().subscribeClient(this.buttonSubscriber);
