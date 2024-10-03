@@ -3,13 +3,18 @@ import type { NyxLogger } from '@nyx-discord/core';
 import { Logger } from 'tslog';
 
 export class LogProvider {
-  protected static instance: NyxLogger | null = null;
+  protected static Instance: Logger<void> | null = null;
 
   public static get(): NyxLogger {
-    if (!this.instance) {
-      this.instance = new Logger({ type: 'pretty' });
+    if (!this.Instance) {
+      this.Instance = new Logger({ type: 'pretty' });
     }
 
-    return this.instance;
+    return this.Instance;
+  }
+
+  public static setDebug(debug: boolean): void {
+    const logger = LogProvider.Instance as Logger<void>;
+    logger.settings.minLevel = debug ? 3 : 1;
   }
 }

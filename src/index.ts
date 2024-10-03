@@ -27,6 +27,12 @@ class EnkiBootstrap {
     logger.info('Starting...');
     const config = await this.loadConfig();
     logger.info('Config loaded');
+
+    if (config.debug) {
+      LogProvider.setDebug(true);
+      logger.info('Debug mode set');
+    }
+
     const contentPath = await this.loadContentPath(config, logger);
     logger.info(`Content path loaded as ${contentPath}`);
 

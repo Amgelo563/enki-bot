@@ -12,6 +12,7 @@ import {
 import type { ConfigWrapper } from '../config/ConfigWrapper';
 import type { ContentService } from '../content/ContentService';
 import { LogProvider } from '../log/LogProvider';
+import { DebugDJSSubscriber } from './events/DebugDJSSubscriber';
 import { TagReferenceButtonSubscriber } from './events/TagReferenceButtonSubscriber';
 import { ResourceAtlasBotManager } from './resource/ResourceAtlasBotManager';
 import { ResourceCommandSerializer } from './serializer/ResourceCommandSerializer';
@@ -141,6 +142,11 @@ export class BotService {
     });
 
     await this.bot.getEventManager().subscribeClient(this.buttonSubscriber);
+
+    if (this.config.isDebug()) {
+      const subscriber = new DebugDJSSubscriber(this.bot.getLogger());
+      await this.bot.getEventManager().subscribeClient(subscriber);
+    }
 
     await this.bot.start();
   }

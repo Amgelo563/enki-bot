@@ -36,6 +36,10 @@ export class ConfigWrapper {
     return this.config.options;
   }
 
+  public isDebug(): boolean {
+    return this.config.debug;
+  }
+
   public getRaw(): ConfigSchemaOutput {
     return this.config;
   }

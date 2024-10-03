@@ -20,6 +20,8 @@ import { ConfigSourceType } from '../type/ConfigSourceType';
 export const ConfigSchema = object({
   token: string(),
   updateCommands: boolean(),
+  debug: optional(boolean(), false),
+
   source: variant('type', [
     object({
       type: literal(ConfigSourceType.Local),
