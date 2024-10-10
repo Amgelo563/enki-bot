@@ -6,6 +6,7 @@ import type {
   SlashCommandSubcommandBuilder,
 } from 'discord.js';
 
+import type { CommandOptionSchema } from '../../command/CommandOptionSchema';
 import type {
   CommandSchema,
   CommandSchemaOutput,
@@ -77,7 +78,9 @@ export class BaseContentCommandSerializer {
   }
 
   protected toLocalizationMaps(
-    localizable: LocalizableSchemaOutput<typeof CommandSchema>,
+    localizable: LocalizableSchemaOutput<
+      typeof CommandSchema | typeof CommandOptionSchema
+    >,
   ): { name: LocalizationMap; description: LocalizationMap } | null {
     if (!localizable.locale) return null;
 
