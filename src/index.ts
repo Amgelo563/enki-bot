@@ -27,7 +27,7 @@ class EnkiBootstrap {
     logger.info('Starting...');
     const config = await this.loadConfig();
     logger.info('Config loaded');
-    if (config.warnings) {
+    if (config.warnings.length) {
       logger.warn('Config parsing reported warnings:');
       for (const warning of config.warnings) {
         logger.warn(warning);
