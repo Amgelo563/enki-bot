@@ -509,7 +509,7 @@ El archivo `config.conf` te permite configurar el comportamiento o mensajes del 
   // En esencia, dónde puede ser instalado el comando.
   // Revisa https://discord-api-types.dev/api/discord-api-types-v10/enum/ApplicationIntegrationType.
   // Opcional para backwards compatibility, por defecto: ["GuildInstall"]. Será requerido en la siguiente versión mayor.
-  defaultIntegrationTypes: [
+  defaultIntegrations: [
     "GuildInstall", // Puede ser instalado en una Guild.
     "UserInstall", // Puede ser instalado en un Usuario.
   ],
@@ -518,7 +518,7 @@ El archivo `config.conf` te permite configurar el comportamiento o mensajes del 
   // En esencia, dónde el comando puede ser usado luego de ser instalado en uno de sus integrationTypes.
   // Revisa https://discord-api-types.dev/api/discord-api-types-v10/enum/InteractionContextType.
   // Opcional para backwards compatibility, por defecto: ["Guild", "BotDM", "PrivateChannel"]. Será requerido en la siguiente versión mayor.
-  defaultInteractionContexts: [
+  defaultContexts: [
     "BotDM", // Puede ser usado en el DM del bot.
     "PrivateChannel", // Puede ser usado en DMs de otros usuarios, incluyendo grupos de DM, luego de ser instalados en un Usuario.
     "Guild", // Puede ser usado en una Guild, luego de ser instalado en una.
