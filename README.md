@@ -344,9 +344,32 @@ The command schema is used when configuring sub/commands and their options.
         }
       }
     }
-  }
+  },
+  
+  // Optional, the command's integration types, overriding the config's defaultIntegrations.
+  // In essence, where the command can be installed.
+  // See https://discord-api-types.dev/api/discord-api-types-v10/enum/ApplicationIntegrationType.
+  integrationTypes: [
+    "GuildInstall", // Will show up when the app is installed on a Guild.
+    "UserInstall", // Will show up when the app is installed on a User.
+  ],
+  
+  // Optional, the command's supported interaction contexts, overriding the config's defaultContexts.
+  // In essence, where the command can be used after being installed with one of its supported integration types.
+  // See https://discord-api-types.dev/api/discord-api-types-v10/enum/InteractionContextType.
+  interactionContexts: [
+    "BotDM", // Can be used in the bot's DM.
+    "PrivateChannel", // Can be used in a private channel including DM Groups, after being "UserInstall"ed.
+    "Guild", // Can be used in a guild, after being "GuildInstall"ed.
+  ],
 }
 ```
+
+> [!CAUTION]
+> Your application must support the `integrationTypes` you want to use. You can change this on your [app's settings](https://discord.com/developers/applications),
+> on the **Installation** page under **Installation Contexts**.
+> 
+> If you use an integration type that your application doesn't support, an error will be thrown.
 
 ### 🔍 Tag Reference Schema
 
@@ -466,9 +489,34 @@ The `config.conf` file lets you configure the behavior or messages of the bot.
       name: "hide",
       description: "Whether to only show this tag to yourself."
     }
-  }
+  },
+  
+  // Default integration types for all commands, unless they explicitly override it.
+  // In essence, where the command can be installed.
+  // See https://discord-api-types.dev/api/discord-api-types-v10/enum/ApplicationIntegrationType.
+  // Optional for backwards compatibility, defaults to ["GuildInstall"]. Will be required in next major version.
+  defaultIntegrationTypes: [
+    "GuildInstall", // Will show up when the app is installed on a Guild.
+    "UserInstall", // Will show up when the app is installed on a User.
+  ],
+  
+  // Default interaction contexts for all commands, unless they explicitly override it.
+  // In essence, where the command can be used after being installed with one of its supported integration types.
+  // See https://discord-api-types.dev/api/discord-api-types-v10/enum/InteractionContextType.
+  // Optional for backwards compatibility, defaults to ["Guild", "BotDM", "PrivateChannel"]. Will be required in next major version.
+  defaultInteractionContexts: [
+    "BotDM", // Can be used in the bot's DM.
+    "PrivateChannel", // Can be used in a private channel including DM Groups, after being "UserInstall"ed.
+    "Guild", // Can be used in a guild, after being "GuildInstall"ed.
+  ],,
 }
 ```
+
+> [!CAUTION]
+> Your application must support the `defaultIntegrationTypes` you want to use. You can change this on your [app's settings](https://discord.com/developers/applications),
+> on the **Installation** page under **Installation Contexts**.
+>
+> If you use an integration type that your application doesn't support, an error will be thrown.
 
 ## 🚀 Running
 

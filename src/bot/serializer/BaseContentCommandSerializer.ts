@@ -1,5 +1,7 @@
 import type {
+  ApplicationIntegrationType,
   ChatInputCommandInteraction,
+  InteractionContextType,
   Locale,
   LocalizationMap,
   SlashCommandBuilder,
@@ -12,15 +14,22 @@ import type {
   CommandSchemaOutput,
 } from '../../command/CommandSchema';
 import type { ConfigCommandOptionsSchemaOutput } from '../../config/command/ConfigCommandOptionsSchema';
+import type { ConfigWrapper } from '../../config/ConfigWrapper';
 import type { LocalizableSchemaOutput } from '../../schemas/LocalizableSchema';
 import type { TagCategory } from '../../tag/category/TagCategory';
 import type { Tag } from '../../tag/Tag';
 
 export class BaseContentCommandSerializer {
+  protected readonly defaultIntegrations: ApplicationIntegrationType[];
+
+  protected readonly defaultContexts: InteractionContextType[];
+
   protected readonly configOptions: ConfigCommandOptionsSchemaOutput;
 
-  constructor(configOptions: ConfigCommandOptionsSchemaOutput) {
-    this.configOptions = configOptions;
+  constructor(config: ConfigWrapper) {
+    this.defaultIntegrations = config.getDefaultIntegrationTypes();
+    this.defaultContexts = config.getDefaultInteractionContexts();
+    this.configOptions = config.getOptions();
   }
 
   protected fillBuilderWithConfigOptions<
@@ -122,5 +131,20 @@ export class BaseContentCommandSerializer {
 
     await interaction.reply({ ...tag.getMessage(), ephemeral });
     return;
+  }
+
+  protected fillBuilderWithContexts(
+    command: CommandSchemaOutput,
+    builder: SlashCommandBuilder,
+  ): SlashCommandBuilder {
+    const integrationTypes =
+      command.integrationTypes ?? this.defaultIntegrations;
+    builder.setIntegrationTypes(integrationTypes);
+
+    const interactionContexts =
+      command.interactionContexts ?? this.defaultContexts;
+    builder.setContexts(interactionContexts);
+
+    return builder;
   }
 }

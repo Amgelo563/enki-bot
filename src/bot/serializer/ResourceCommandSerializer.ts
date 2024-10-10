@@ -7,7 +7,7 @@ import type { SlashCommandSubcommandsOnlyBuilder } from 'discord.js';
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
 
 import type { CommandSchemaOutput } from '../../command/CommandSchema';
-import type { ConfigCommandOptionsSchemaOutput } from '../../config/command/ConfigCommandOptionsSchema';
+import type { ConfigWrapper } from '../../config/ConfigWrapper';
 import type { Resource } from '../../resource/Resource';
 import type { Tag } from '../../tag/Tag';
 import { BaseContentCommandSerializer } from './BaseContentCommandSerializer';
@@ -17,15 +17,16 @@ export class ResourceCommandSerializer extends BaseContentCommandSerializer {
   protected readonly categorySerializer: TagCategoryCommandSerializer;
 
   constructor(
-    configOptions: ConfigCommandOptionsSchemaOutput,
+    config: ConfigWrapper,
     categorySerializer: TagCategoryCommandSerializer,
   ) {
-    super(configOptions);
+    super(config);
     this.categorySerializer = categorySerializer;
   }
 
   public toParentCommand(resource: Resource): ParentCommand {
     const toLocalizationMaps = this.toLocalizationMaps.bind(this);
+    const fillBuilderWithContexts = this.fillBuilderWithContexts.bind(this);
 
     const ResourceParentCommandClass = class extends AbstractParentCommand {
       protected createData(): SlashCommandSubcommandsOnlyBuilder {
@@ -34,6 +35,8 @@ export class ResourceCommandSerializer extends BaseContentCommandSerializer {
         const builder = new SlashCommandBuilder()
           .setName(command.name)
           .setDescription(command.description);
+
+        fillBuilderWithContexts(command, builder);
 
         const optionMaps = toLocalizationMaps(command);
         if (optionMaps) {

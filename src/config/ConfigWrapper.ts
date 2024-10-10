@@ -1,4 +1,8 @@
-import type { BaseMessageOptions } from 'discord.js';
+import type {
+  ApplicationIntegrationType,
+  BaseMessageOptions,
+  InteractionContextType,
+} from 'discord.js';
 
 import type { ConfigCommandOptionsSchemaOutput } from './command/ConfigCommandOptionsSchema';
 import type { ConfigErrorsSchemaOutput } from './errors/ConfigErrorsSchema';
@@ -38,6 +42,14 @@ export class ConfigWrapper {
 
   public isDebug(): boolean {
     return this.config.debug;
+  }
+
+  public getDefaultIntegrationTypes(): ApplicationIntegrationType[] {
+    return this.config.defaultIntegrations;
+  }
+
+  public getDefaultInteractionContexts(): InteractionContextType[] {
+    return this.config.defaultContexts;
   }
 
   public getRaw(): ConfigSchemaOutput {

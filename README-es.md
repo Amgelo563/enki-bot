@@ -355,9 +355,32 @@ El Schema de Comando es usado para configura sub/comandos y sus opciones.
         }
       }
     }
-  }
+  },
+
+  // Opcional, los "integration types" del comando. Sobreescribe los defaultIntegrations de la config.
+  // En esencia, dónde puede ser instalado el comando.
+  // Revisa https://discord-api-types.dev/api/discord-api-types-v10/enum/ApplicationIntegrationType.
+  integrationTypes: [
+    "GuildInstall", // Puede ser instalado en una Guild.
+    "UserInstall", // Puede ser instalado en un Usuario.
+  ],
+
+  // Opcional, los "interaction contexts" del comando. Sobreescribe los defaultContexts de la config.
+  // En esencia, dónde el comando puede ser usado luego de ser instalado en uno de sus integrationTypes.
+  // Revisa https://discord-api-types.dev/api/discord-api-types-v10/enum/InteractionContextType.
+  interactionContexts: [
+    "BotDM", // Puede ser usado en el DM del bot.
+    "PrivateChannel", // Puede ser usado en DMs de otros usuarios, incluyendo grupos de DM, luego de ser instalados en un Usuario.
+    "Guild", // Puede ser usado en una Guild, luego de ser instalado en una.
+  ],
 }
 ```
+
+> [!CAUTION]
+> Tu aplicación debe soportar los `integrationTypes` que quieras usar. Puedes cambiar esto en [los ajustes de tu app](https://discord.com/developers/applications),
+> en **Installation**: **Installation Contexts**.
+>
+> Si usas un integrationType que tu aplicación no soporta, vas a recibir un error.
 
 ### 🔍 Schema de Referencia a Tag
 
@@ -480,9 +503,34 @@ El archivo `config.conf` te permite configurar el comportamiento o mensajes del 
       name: "esconder",
       description: "Si es que se debería mostrar el contenido de este Tag solo para ti."
     }
-  }
+  },
+
+  // Los integrationTypes por defecto para todos los comandos, a no ser que pongan unos manualmente.
+  // En esencia, dónde puede ser instalado el comando.
+  // Revisa https://discord-api-types.dev/api/discord-api-types-v10/enum/ApplicationIntegrationType.
+  // Opcional para backwards compatibility, por defecto: ["GuildInstall"]. Será requerido en la siguiente versión mayor.
+  defaultIntegrationTypes: [
+    "GuildInstall", // Puede ser instalado en una Guild.
+    "UserInstall", // Puede ser instalado en un Usuario.
+  ],
+
+  // Los interactionContexts por defecto para todos los comandos, a no ser que pongan unos manualmente.
+  // En esencia, dónde el comando puede ser usado luego de ser instalado en uno de sus integrationTypes.
+  // Revisa https://discord-api-types.dev/api/discord-api-types-v10/enum/InteractionContextType.
+  // Opcional para backwards compatibility, por defecto: ["Guild", "BotDM", "PrivateChannel"]. Será requerido en la siguiente versión mayor.
+  defaultInteractionContexts: [
+    "BotDM", // Puede ser usado en el DM del bot.
+    "PrivateChannel", // Puede ser usado en DMs de otros usuarios, incluyendo grupos de DM, luego de ser instalados en un Usuario.
+    "Guild", // Puede ser usado en una Guild, luego de ser instalado en una.
+  ],
 }
 ```
+
+> [!CAUTION]
+> Tu aplicación debe soportar los `integrationTypes` que quieras usar. Puedes cambiar esto en [los ajustes de tu app](https://discord.com/developers/applications),
+> en **Installation**: **Installation Contexts**.
+>
+> Si usas un integrationType que tu aplicación no soporta, vas a recibir un error.
 
 ## 🚀 Iniciar el Bot
 

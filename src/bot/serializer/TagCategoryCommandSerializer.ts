@@ -25,7 +25,7 @@ export class TagCategoryCommandSerializer extends BaseContentCommandSerializer {
   protected readonly config: ConfigWrapper;
 
   constructor(config: ConfigWrapper) {
-    super(config.getOptions());
+    super(config);
     this.config = config;
   }
 
@@ -43,13 +43,18 @@ export class TagCategoryCommandSerializer extends BaseContentCommandSerializer {
 
     const executor = this.executor.bind(this, category);
     const autocompleter = this.categoryAutocompleter.bind(this, category);
+    const fillBuilderWithContexts = this.fillBuilderWithContexts.bind(this);
 
     const CategoryCommandClass = class extends AbstractStandaloneCommand {
       public execute = executor;
 
-      public createData = dataFactory;
-
       public autocomplete = autocompleter;
+
+      public createData(): SlashCommandOptionsOnlyBuilder {
+        const builder = dataFactory();
+        fillBuilderWithContexts(category.getCommand(), builder);
+        return builder;
+      }
     };
 
     const categoryStandalone = new CategoryCommandClass();
@@ -65,6 +70,7 @@ export class TagCategoryCommandSerializer extends BaseContentCommandSerializer {
       const command = tag.getRaw().command as CommandSchemaOutput;
       const tagExecutor = this.tagExecutor.bind(this, tag);
       const builderFiller = this.fillBuilderWithConfigOptions.bind(this);
+      const fillBuilderWithContexts = this.fillBuilderWithContexts.bind(this);
 
       const TagCommandClass = class extends AbstractStandaloneCommand {
         public execute = tagExecutor;
@@ -73,6 +79,7 @@ export class TagCategoryCommandSerializer extends BaseContentCommandSerializer {
           const builder = new SlashCommandBuilder()
             .setName(command.name)
             .setDescription(command.description);
+          fillBuilderWithContexts(command, builder);
 
           return builderFiller(builder, tag);
         }

@@ -78,7 +78,7 @@ export class BotService {
     );
 
     const resourceSerializer = new ResourceCommandSerializer(
-      config.getOptions(),
+      config,
       tagCategorySerializer,
     );
     const resourceAtlasBotManager = new ResourceAtlasBotManager(
