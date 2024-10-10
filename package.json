@@ -3,6 +3,7 @@
   "description": "A powerful data-driven Discord bot for documenting resources and providing quick messages for users.",
   "version": "1.0.0",
   "main": "build/index.js",
+  "private": true,
   "scripts": {
     "clean": "rimraf ./dist",
     "build": "pnpm run clean && tsc",
