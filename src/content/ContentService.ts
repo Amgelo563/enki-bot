@@ -171,7 +171,7 @@ export class ContentService {
           );
         }
       } else {
-        if (!('variant' in reference) || !reference.variant) return;
+        if (!('variant' in reference) || !reference.variant) continue;
 
         if (!foundReference.getVariant(reference.variant)) {
           throw new AssertionError(
